@@ -10,7 +10,7 @@ let svg = d3.select('.chart')
 	.append('svg')
 	.attr('width', width)
 	.attr('height', height)
-	.style('padding', padding)
+	.style('padding', '10 300 0 10')
 
 let fader = (color) => {
 		return d3.interpolateRgb(color, '#ff0000')(0) },
@@ -23,6 +23,7 @@ let treemap = d3.treemap()
 	.round(true)
 	.paddingInner(2)
 
+let legendCategories = []
 function createMap(err, data) {
   	if (err) {
   		throw err
@@ -30,7 +31,7 @@ function createMap(err, data) {
 
 	let root = d3.hierarchy(data)
 		.eachBefore((d) => {
-			d.data.id = (d.parent ? d.parent.data.id + '.' : '') + d.data.name
+			d.data.id = (d.parent ? d.parent.data.id + d.data.name : '')
 		})
 		.sum((d) => {
 			return d.value
@@ -59,10 +60,45 @@ function createMap(err, data) {
 			return d.y1 - d.y0
 		})
 		.attr('fill', (d) => {
+			if (!legendCategories.includes(d.data.category)){
+				legendCategories.push(d.data.category)
+			}
 			return color(d.data.category)
 		})
 
+	cell.append('foreignObject')
+    		.attr('class', 'cell-text')
+		    .attr('width',5)
+    		.attr('x',5)
+    		.attr('y', 5)
+    		.text((d) => {
+			return d.data.name })
+
+
+
+
+	let legend =  svg
+    	.selectAll('.legend')
+    	.data(legendCategories)
+    	.enter()
+    	.append('g')
+    	    .attr('id', 'legend')
+    	    .attr('transform', (d , i) => {
+    	      return 'translate('+ (20 + i / 40) + ',' + (i * 30)+ ')'
+    	    })
+
+	legend
+    	.append('rect')
+    	.attr('x',width)
+    	.attr('width', 30)
+    	.attr('height', 20)
+    	.style('fill',  (d) => {
+    		 return color(d)
+    	})
+
 }
+
+
 
 
 d3.queue()

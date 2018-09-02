@@ -1,3 +1,7 @@
 body {
   background-color: #d6d6d6;
 }
+
+.cell-text {
+  font-size: 10px;
+}
