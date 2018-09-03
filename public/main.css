@@ -39,3 +39,8 @@ body {
 .btn-group button:hover {
   background-color: #419929;
 }
+
+h1 {
+  text-align: center;
+  margin-right: 200px
+}
