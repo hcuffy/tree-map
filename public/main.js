@@ -9,9 +9,10 @@ let svg = d3.select('.chart')
 	.append('svg')
 	.attr('width', width)
 	.attr('height', height)
-	.style('padding', '90 300 0 10')
+	.style('padding', '90 300 0 90')
 
 let fader = (color) => {
+
 		return d3.interpolateRgb(color, '#ff0000')(0) },
 	color = d3.scaleOrdinal(d3.schemeCategory20.map(fader)),
 	format = d3.format(',d')
@@ -19,8 +20,7 @@ let fader = (color) => {
 let treemap = d3.treemap()
 	.tile(d3.treemapResquarify)
 	.size([width, height])
-	.round(true)
-	.paddingInner(2)
+	.paddingInner(1)
 
 let legendCategories = []
 function createMap(err, data) {
@@ -123,9 +123,6 @@ function createMap(err, data) {
  				.text(description)
 
 }
-
-
-
 
 d3.queue()
   	.defer(d3.json, url )
