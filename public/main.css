@@ -5,3 +5,7 @@ body {
 .cell-text {
   font-size: 10px;
 }
+
+#description {
+  font-size: 30px;
+}

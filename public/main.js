@@ -1,6 +1,6 @@
 let url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json'
 let title = 'Kickstarter Pledges'
-let description = 'Top 100 highest Kickstarter pledges by category'
+let description = 'Top 100 highest Kickstarter pledges by category.'
 
 const width = 900
 const height = 600
@@ -9,7 +9,7 @@ let svg = d3.select('.chart')
 	.append('svg')
 	.attr('width', width)
 	.attr('height', height)
-	.style('padding', '10 300 0 10')
+	.style('padding', '90 300 0 10')
 
 let fader = (color) => {
 		return d3.interpolateRgb(color, '#ff0000')(0) },
@@ -52,11 +52,21 @@ function createMap(err, data) {
 		.attr('id', (d) => {
 			return d.data.id
 		})
+		.attr('class', 'tile')
 		.attr('width', (d) => {
 			return d.x1 - d.x0
 		})
 		.attr('height', (d) => {
 			return d.y1 - d.y0
+		})
+		.attr('data-name', (d) => {
+			return  d.data.name
+		})
+		.attr('data-category', (d) => {
+			return  d.data.category
+		})
+		.attr('data-value', (d) => {
+			return  d.data.name
 		})
 		.attr('fill', (d) => {
 			if (!legendCategories.includes(d.data.category)){
@@ -88,6 +98,7 @@ function createMap(err, data) {
 
 	legend
     	.append('rect')
+		  .attr('class', 'legend-item')
     	.attr('x',width)
     	.attr('width', 30)
     	.attr('height', 20)
@@ -104,6 +115,13 @@ function createMap(err, data) {
 
       		return d
       	})
+
+	svg.append('text')
+ 				.attr('id', 'description')
+ 				.attr('x', (width / 4))
+ 				.attr('y', (-20))
+ 				.text(description)
+
 }
 
 
