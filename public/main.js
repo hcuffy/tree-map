@@ -23,6 +23,12 @@ let treemap = d3.treemap()
 	.paddingInner(1)
 
 let legendCategories = []
+
+let tooltip = d3
+	.select('.chart')
+	.append('div')
+	.attr('id', 'tooltip')
+
 function createMap(err, data) {
   	if (err) {
   		throw err
@@ -33,7 +39,6 @@ function createMap(err, data) {
 			d.data.id = (d.parent ? d.parent.data.id + d.data.name : '')
 		})
 		.sum((d) => {
-
 			return d.value
 		})
 		.sort((a, b) => {
@@ -75,6 +80,27 @@ function createMap(err, data) {
 			}
 			return color(d.data.category)
 		})
+		.on('mouseover', (d) => {
+ 			tooltip
+ 				.transition()
+ 				.style('opacity', 1)
+ 				.style('visibility', 'visible')
+ 			tooltip
+ 				.html( () => {
+ 				   let toolTipText = 'Name: '+ d.data.name +'</br>'+ 'Category: '+ d.data.category + '</br>'+ 'Value: '+ d.data.value
+
+ 					return toolTipText
+ 				})
+ 				.style('left', (d3.event.pageX + 10) + 'px')
+ 				.style('top', (d3.event.pageY + 10) + 'px')
+				.attr('data-value', () => {
+					return  d.data.value
+				})
+ 		})
+
+ 	svg.on('mouseout', () => {
+ 		tooltip.transition().style('visibility', 'hidden')
+ 	})
 
 	cell.append('foreignObject')
     		.attr('class', 'cell-text')
