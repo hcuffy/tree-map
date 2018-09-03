@@ -1,8 +1,8 @@
 # Message Board
 
-Three D3 Tree maps for Video game sales, Movie sales and kickstarter pledges.
+Three D3 Tree maps for Video game sales, Movie sales and Kickstarter pledges.
 
-Live App: coming soon
+Live App: <https://healthy-entrance.glitch.me/>
 
 ## Prerequisites for Local Installation.
 

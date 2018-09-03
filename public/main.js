@@ -1,7 +1,12 @@
-
+const width = 900
+const height = 600
 let svg
+let legend
+let legendCategories = []
+
 $('button').click(function () {
 	d3.select('svg').remove()
+	legendCategories = []
 	let id = this.id
 	getData(id)
 })
@@ -12,6 +17,8 @@ function getData(data){
 		.attr('width', width)
 		.attr('height', height)
 		.style('padding', '90 300 0 90')
+
+	svg.selectAll('.legend-item').remove()
 
 	if (data == 'kickstarter'){
 		url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json'
@@ -30,11 +37,6 @@ function getData(data){
 
 }
 
-const width = 900
-const height = 600
-
-
-
 let fader = (color) => {
 
 		return d3.interpolateRgb(color, '#ff0000')(0) },
@@ -45,8 +47,6 @@ let treemap = d3.treemap()
 	.tile(d3.treemapResquarify)
 	.size([width, height])
 	.paddingInner(1)
-
-let legendCategories = []
 
 let tooltip = d3
 	.select('.chart')
@@ -137,9 +137,8 @@ function createMap(err, data) {
     		.text((d) => {
 			return d.data.name })
 
-
 	legend =  svg
-		.selectAll('legend')
+		.selectAll('.legend')
 		.data(legendCategories)
 		.enter()
 		.append('g')
