@@ -19,3 +19,23 @@ body {
   color: #000000;
   background: #ededed;
 }
+
+.btn-group {
+  margin: 30px 0px 0px 400px;
+}
+
+.btn-group button {
+  background-color: #4286f4;
+  border: 1px solid #000000;
+  float: left;
+  height: 50px;
+  font-size: 12px;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none;
+}
+
+.btn-group button:hover {
+  background-color: #419929;
+}

@@ -1,15 +1,39 @@
-let url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json'
-let title = 'Kickstarter Pledges'
-let description = 'Top 100 highest Kickstarter pledges by category.'
+
+let svg
+$('button').click(function () {
+	d3.select('svg').remove()
+	let id = this.id
+	getData(id)
+})
+
+function getData(data){
+	svg = d3.select('.chart')
+		.append('svg')
+		.attr('width', width)
+		.attr('height', height)
+		.style('padding', '90 300 0 90')
+
+	if (data == 'kickstarter'){
+		url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/kickstarter-funding-data.json'
+		description = 'Top 100 highest Kickstarter pledges by category.'
+	} else if (data == 'movie'){
+	   url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/movie-data.json'
+ 	   description = 'Top 100 highest grossing movies by genre.'
+	 } else if (data == 'video'){
+		 url = 'https://cdn.rawgit.com/freeCodeCamp/testable-projects-fcc/a80ce8f9/src/data/tree_map/video-game-sales-data.json'
+		 description = 'Top 100 sold video gamesby platform.'
+	 }
+
+	d3.queue()
+		.defer(d3.json, url)
+		.await(createMap)
+
+}
 
 const width = 900
 const height = 600
 
-let svg = d3.select('.chart')
-	.append('svg')
-	.attr('width', width)
-	.attr('height', height)
-	.style('padding', '90 300 0 90')
+
 
 let fader = (color) => {
 
@@ -39,6 +63,7 @@ function createMap(err, data) {
 			d.data.id = (d.parent ? d.parent.data.id + d.data.name : '')
 		})
 		.sum((d) => {
+
 			return d.value
 		})
 		.sort((a, b) => {
@@ -47,9 +72,11 @@ function createMap(err, data) {
 
 	treemap(root)
 
-	let cell = svg.selectAll('g')
+	let cell = svg
+	   .selectAll('g')
 		.data(root.leaves())
 		.enter().append('g')
+		.attr('class', 'svg-page')
 		.attr('transform', (d) => {
 			return 'translate(' + d.x0 + ',' + d.y0 + ')'
 		})
@@ -110,15 +137,16 @@ function createMap(err, data) {
     		.text((d) => {
 			return d.data.name })
 
-	let legend =  svg
-    	.selectAll('.legend')
-    	.data(legendCategories)
-    	.enter()
-    	.append('g')
-    	    .attr('id', 'legend')
-    	    .attr('transform', (d , i) => {
-    	      return 'translate('+ (20 + i / 40) + ',' + (i * 30)+ ')'
-    	    })
+
+	legend =  svg
+		.selectAll('legend')
+		.data(legendCategories)
+		.enter()
+		.append('g')
+		.attr('id', 'legend')
+		.attr('transform', (d , i) => {
+			return 'translate('+ (20 + i / 40) + ',' + (i * 30)+ ')'
+		})
 
 	legend
     	.append('rect')
@@ -145,9 +173,6 @@ function createMap(err, data) {
  				.attr('x', (width / 4))
  				.attr('y', (-20))
  				.text(description)
-
 }
 
-d3.queue()
-  	.defer(d3.json, url )
-  	.await(createMap)
+getData('kickstarter')
