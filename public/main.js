@@ -4,7 +4,6 @@ let description = 'Top 100 highest Kickstarter pledges by category'
 
 const width = 900
 const height = 600
-const padding = 50
 
 let svg = d3.select('.chart')
 	.append('svg')
@@ -96,6 +95,15 @@ function createMap(err, data) {
     		 return color(d)
     	})
 
+	legend
+      	.append('text')
+      	.attr('class', 'legend-text')
+      	.attr('x', width + 40)
+      	.attr('y', 20)
+      	.text( (d) => {
+
+      		return d
+      	})
 }
 
 
