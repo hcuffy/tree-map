@@ -33,6 +33,7 @@ function createMap(err, data) {
 			d.data.id = (d.parent ? d.parent.data.id + d.data.name : '')
 		})
 		.sum((d) => {
+
 			return d.value
 		})
 		.sort((a, b) => {
@@ -66,7 +67,7 @@ function createMap(err, data) {
 			return  d.data.category
 		})
 		.attr('data-value', (d) => {
-			return  d.data.name
+			return  d.data.value
 		})
 		.attr('fill', (d) => {
 			if (!legendCategories.includes(d.data.category)){
@@ -82,9 +83,6 @@ function createMap(err, data) {
     		.attr('y', 5)
     		.text((d) => {
 			return d.data.name })
-
-
-
 
 	let legend =  svg
     	.selectAll('.legend')
